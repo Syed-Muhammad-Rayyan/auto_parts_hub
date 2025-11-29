@@ -158,7 +158,18 @@
                         @endif
                     </a>
                 </li>
+                                <!-- Add admin login link -->
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.login') }}" class="nav-link">Admin Login</a>
+                                </li>
             </ul>
+
+{{--            <ul class="navbar-nav ms-auto">--}}
+{{--                <!-- Add admin login link -->--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{ route('admin.login') }}" class="nav-link">Admin Login</a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
 
             {{-- Search Form --}}
             <form class="d-flex ms-3" action="{{ route('products.index') }}" method="GET">

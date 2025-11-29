@@ -7,6 +7,9 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminProductController;
 //use Illuminate\Support\Facades\Auth;
 
 /*
@@ -29,6 +32,19 @@ Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 //    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 //    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 //});
+
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Auth
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+    // Products CRUD
+    Route::resource('products', AdminProductController::class);
+});
+
 
 // Home page route
 Route::get('/', [PageController::class, 'home'])->name('home');
