@@ -1,0 +1,60 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
+#explore_more_button {
+    color: black;
+    background-color: #dc2d34 !important;
+}
+
+#explore_more_button:hover {
+    background-color: white !important;
+    color: black;
+}
+
+/* ===== Cart Quantity Input Styling ===== */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+input[type="number"] {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    width: 70px;
+    text-align: center;
+    transition: 0.2s ease;
+}
+
+input[type="number"]:focus {
+    border-color: #dc2d34;
+    outline: none;
+    box-shadow: 0 0 4px rgba(220, 45, 52, 0.3);
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+form[action*="cart/update"] input[type=number] {
+    width: 70px;
+    text-align: center;
+}
+
+.btn[style*="#dc2d34"]:hover {
+    opacity: 0.85;
+    transform: scale(1.03);
+    transition: all 0.15s ease-in-out;
+}
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
