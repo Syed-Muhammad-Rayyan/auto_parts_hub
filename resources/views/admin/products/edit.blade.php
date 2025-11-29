@@ -22,6 +22,11 @@
                 <input type="number" name="price" class="form-control" value="{{ $product->price }}" required>
             </div>
             <div class="mb-3">
+                <label for="short" class="form-label">Short Description</label>
+                <input type="text" name="short" class="form-control" value="{{ old('short', $product->short ?? '') }}">
+            </div>
+
+            <div class="mb-3">
                 <label>Image</label>
                 <input type="file" name="image" class="form-control">
                 @if($product->image)
