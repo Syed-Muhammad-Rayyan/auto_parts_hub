@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use Illuminate\Support\Str; // make sure this is at the top of your controller
-
+use Illuminate\Support\Str; // keep this
 
 class AdminProductController extends Controller
 {
+    private $categories = [
+        'Engine Parts',
+        'Brake System',
+        'Transmission',
+        'Tires & Wheels',
+        'Suspension Parts',
+        'Lights',
+        'Body Components',
+        'Electrical Components'
+    ];
+
     // Display all products
     public function index()
     {
@@ -27,10 +37,11 @@ class AdminProductController extends Controller
             return redirect()->route('admin.login');
         }
 
-        return view('admin.products.create');
+        $categories = $this->categories; // send categories to blade
+        return view('admin.products.create', compact('categories'));
     }
 
-    // Store new product in database
+    // Store new product
     public function store(Request $request)
     {
         if (!session()->has('admin_id')) {
@@ -41,6 +52,7 @@ class AdminProductController extends Controller
             'name' => 'required|string|max:255',
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
+            'category' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
@@ -48,6 +60,7 @@ class AdminProductController extends Controller
         $product->name = $request->name;
         $product->short = $request->short ?? '';
         $product->price = $request->price;
+        $product->category = $request->category;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -56,7 +69,7 @@ class AdminProductController extends Controller
             $product->image = $filename;
         }
 
-        // generate slug from name
+        // slug
         $product->slug = Str::slug($request->name, '-');
 
         $product->save();
@@ -64,18 +77,18 @@ class AdminProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product added successfully.');
     }
 
-    // Show form to edit a product
+    // Edit product
     public function edit(Product $product)
     {
         if (!session()->has('admin_id')) {
             return redirect()->route('admin.login');
         }
 
-        return view('admin.products.edit', compact('product'));
+        $categories = $this->categories; // send categories to blade
+        return view('admin.products.edit', compact('product', 'categories'));
     }
 
-    // Update product in database
-
+    // Update product
     public function update(Request $request, Product $product)
     {
         if (!session()->has('admin_id')) {
@@ -86,15 +99,17 @@ class AdminProductController extends Controller
             'name' => 'required|string|max:255',
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
+            'category' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $product->name = $request->name;
         $product->short = $request->short ?? '';
         $product->price = $request->price;
+        $product->category = $request->category;
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
+
             if ($product->image && file_exists(public_path('images/' . $product->image))) {
                 unlink(public_path('images/' . $product->image));
             }
@@ -105,7 +120,7 @@ class AdminProductController extends Controller
             $product->image = $filename;
         }
 
-        // regenerate slug
+        // slug update
         $product->slug = Str::slug($request->name, '-');
 
         $product->save();
@@ -113,8 +128,7 @@ class AdminProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
-
-    // Delete a product
+    // Delete product
     public function destroy(Product $product)
     {
         if (!session()->has('admin_id')) {

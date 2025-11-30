@@ -14,6 +14,7 @@
             <tr>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Image</th>
                 <th>Actions</th>
             </tr>
@@ -23,6 +24,8 @@
                 <tr>
                     <td>{{ $product->name }}</td>
                     <td>PKR {{ $product->price }}</td>
+                    <td>{{ $product->category }}</td> {{-- NEW --}}
+
                     <td>
                         @if($product->image)
                             <img src="{{ asset('images/'.$product->image) }}" width="80">
