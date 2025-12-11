@@ -212,6 +212,92 @@
             transform: scale(1.02);
         }
 
+        /* AJAX Search Styles */
+        .search-results-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1050;
+            display: none;
+            margin-top: 2px;
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f8f9fa;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .search-result-item:hover,
+        .search-result-item:focus {
+            background-color: #f8f9fa;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .search-result-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .search-result-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-result-category {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 2px;
+        }
+
+        .search-result-price {
+            font-size: 13px;
+            font-weight: 600;
+            color: #dc2d34;
+        }
+
+        .search-loading,
+        .search-no-results {
+            padding: 15px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .search-no-results {
+            border-top: 1px solid #f8f9fa;
+        }
+
         /* Mobile navbar improvements */
         @media (max-width: 991.98px) {
             .navbar-collapse {
@@ -226,6 +312,12 @@
             }
             .navbar-nav .nav-item {
                 margin: 0.5rem 0;
+            }
+
+            .search-results-dropdown {
+                left: 1rem;
+                right: 1rem;
+                max-height: 300px;
             }
         }
 
@@ -289,17 +381,28 @@
                 </li>
 
                 {{-- Search Form --}}
-                <li class="nav-item">
+                <li class="nav-item position-relative">
                     <form class="d-flex align-items-center" action="{{ route('products.index') }}" method="GET">
                         <div class="input-group">
-                            <input class="form-control border-end-0" type="search" name="query"
+                            <input class="form-control border-end-0" type="search" name="query" id="search-input"
                                    placeholder="Search products..." aria-label="Search"
-                                   value="{{ request('query') }}" style="max-width: 200px;">
+                                   value="{{ request('query') }}" style="max-width: 200px;" autocomplete="off">
                             <button class="btn btn-outline-secondary border-start-0" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
+
+                    {{-- AJAX Search Results Dropdown --}}
+                    <div id="search-results" class="search-results-dropdown">
+                        <div id="search-loading" class="search-loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Searching...
+                        </div>
+                        <div id="search-results-list"></div>
+                        <div id="search-no-results" class="search-no-results" style="display: none;">
+                            No products found
+                        </div>
+                    </div>
                 </li>
 
                 {{-- Admin Login --}}
@@ -325,6 +428,123 @@
 
 {{-- Bootstrap JS --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{{-- AJAX Search JavaScript --}}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const searchResultsList = document.getElementById('search-results-list');
+    const searchLoading = document.getElementById('search-loading');
+    const searchNoResults = document.getElementById('search-no-results');
+
+    let searchTimeout;
+
+    // Hide results when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.style.display = 'none';
+        }
+    });
+
+    // Handle search input
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+
+        // Clear previous timeout
+        clearTimeout(searchTimeout);
+
+        // Hide results if query is too short
+        if (query.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        // Show loading
+        searchResults.style.display = 'block';
+        searchLoading.style.display = 'block';
+        searchResultsList.innerHTML = '';
+        searchNoResults.style.display = 'none';
+
+        // Debounce search requests
+        searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    });
+
+    // Handle Enter key to submit form
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const form = this.closest('form');
+            if (this.value.trim().length >= 2) {
+                form.submit();
+            }
+        }
+
+        // Hide results on Escape
+        if (e.key === 'Escape') {
+            searchResults.style.display = 'none';
+        }
+    });
+
+    async function performSearch(query) {
+        try {
+            const response = await fetch(`/products/search-ajax?q=${encodeURIComponent(query)}`);
+            const products = await response.json();
+
+            searchLoading.style.display = 'none';
+
+            if (products.length === 0) {
+                searchNoResults.style.display = 'block';
+                return;
+            }
+
+            searchNoResults.style.display = 'none';
+            displayResults(products);
+        } catch (error) {
+            console.error('Search error:', error);
+            searchLoading.style.display = 'none';
+            searchNoResults.style.display = 'block';
+        }
+    }
+
+    function displayResults(products) {
+        searchResultsList.innerHTML = '';
+
+        products.forEach(product => {
+            const item = document.createElement('a');
+            item.href = `/products/${product.slug}`;
+            item.className = 'search-result-item';
+
+            const imageUrl = product.image ? `/images/${product.image}` : '/images/placeholder.png';
+
+            item.innerHTML = `
+                <img src="${imageUrl}" alt="${product.name}" class="search-result-image" onerror="this.src='/images/placeholder.png'">
+                <div class="search-result-content">
+                    <div class="search-result-name">${highlightMatch(product.name, searchInput.value)}</div>
+                    <div class="search-result-category">${product.category}</div>
+                    <div class="search-result-price">PKR ${new Intl.NumberFormat().format(product.price)}</div>
+                </div>
+            `;
+
+            searchResultsList.appendChild(item);
+        });
+    }
+
+    function highlightMatch(text, query) {
+        if (!query) return text;
+        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return text.replace(regex, '<mark>$1</mark>');
+    }
+
+    // Close results when form is submitted
+    const searchForm = searchInput.closest('form');
+    searchForm.addEventListener('submit', function() {
+        searchResults.style.display = 'none';
+    });
+});
+</script>
 
 </body>
 </html>
