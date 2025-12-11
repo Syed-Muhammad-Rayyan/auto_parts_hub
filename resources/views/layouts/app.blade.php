@@ -100,21 +100,133 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
+        /* Category Cards */
+        .category-card {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+            height: 280px;
+        }
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(220,45,52,0.15);
+            border-color: #dc2d34;
+        }
+        .category-card-link:hover .category-card {
+            background: linear-gradient(135deg, #fff 0%, #fef2f2 100%);
+        }
+        .category-icon {
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-bottom: 1rem;
+        }
+        .category-card:hover .category-icon {
+            transform: scale(1.1);
+        }
+        .category-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Product Cards */
+        .product-card {
+            transition: all 0.3s ease;
+            border: none;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 380px;
+            height: 380px;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+            flex-shrink: 0;
+        }
+        .product-image {
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            padding: 1rem;
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        .product-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
         /* Navbar */
         nav.navbar {
-            background-color: rgba(220, 45, 52, 0.73);
-            border-bottom: 1px solid #eee;
+            background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            backdrop-filter: blur(10px);
         }
         nav a.nav-link {
             color: #222 !important;
             font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
         }
         nav a.nav-link:hover {
-            color: #dc3545 !important;
+            color: #dc2d34 !important;
+        }
+        nav a.nav-link.active {
+            color: #dc2d34 !important;
+            font-weight: 600;
+        }
+        nav a.nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background-color: #dc2d34;
+            border-radius: 1px;
         }
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand:hover {
+            transform: scale(1.02);
+        }
+
+        /* Mobile navbar improvements */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background: rgba(255,255,255,0.95);
+                border-radius: 12px;
+                margin-top: 1rem;
+                padding: 1rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            }
+            .navbar-nav {
+                text-align: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 0.5rem 0;
+            }
         }
 
         /* Footer */
@@ -134,48 +246,69 @@
 </head>
 <body>
 {{-- Navbar --}}
-<nav class="navbar navbar-expand-lg py-3">
+<nav class="navbar navbar-expand-lg navbar-light py-3 shadow-sm">
     <div class="container">
-        <a class="navbar-brand" style="color: #322c2c" href="{{ route('home') }}">AutoParts Hub</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+            <i class="fas fa-cogs me-2" style="color: #dc2d34;"></i>
+            <span style="color: #322c2c; font-weight: 700;">AutoParts Hub</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">Products</a></li>
-                {{--                <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li> --}}
-                <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact</a></li>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link px-3 {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 {{ request()->routeIs('products.*') ? 'active' : '' }}" href="{{ route('products.index') }}">
+                        <i class="fas fa-box me-1"></i>Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}">
+                        <i class="fas fa-envelope me-1"></i>Contact
+                    </a>
+                </li>
+            </ul>
 
+            <ul class="navbar-nav">
                 {{-- Cart Badge --}}
-                <li class="nav-item position-relative">
-                    <a class="nav-link position-relative" href="{{ route('cart.index') }}">
-                        View Cart 🛒
+                <li class="nav-item position-relative me-3">
+                    <a class="nav-link position-relative px-3" href="{{ route('cart.index') }}">
+                        <i class="fas fa-shopping-cart me-1"></i>Cart
                         @if(isset($cartCount) && $cartCount > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                                  style="background-color: #dc2d34; font-size: 0.7rem;">
                                 {{ $cartCount }}
                             </span>
                         @endif
                     </a>
                 </li>
-                                <!-- Add admin login link -->
-                                <li class="nav-item">
-                                    <a href="{{ route('admin.login') }}" class="nav-link">Admin Login</a>
-                                </li>
+
+                {{-- Search Form --}}
+                <li class="nav-item">
+                    <form class="d-flex align-items-center" action="{{ route('products.index') }}" method="GET">
+                        <div class="input-group">
+                            <input class="form-control border-end-0" type="search" name="query"
+                                   placeholder="Search products..." aria-label="Search"
+                                   value="{{ request('query') }}" style="max-width: 200px;">
+                            <button class="btn btn-outline-secondary border-start-0" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </li>
+
+                {{-- Admin Login --}}
+                <li class="nav-item ms-3">
+                    <a href="{{ route('admin.login') }}" class="btn btn-brand btn-sm">
+                        <i class="fas fa-user-shield me-1"></i>Admin
+                    </a>
+                </li>
             </ul>
-
-{{--            <ul class="navbar-nav ms-auto">--}}
-{{--                <!-- Add admin login link -->--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{ route('admin.login') }}" class="nav-link">Admin Login</a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
-
-            {{-- Search Form --}}
-            <form class="d-flex ms-3" action="{{ route('products.index') }}" method="GET">
-                <input class="form-control" type="search" name="query" placeholder="Search Products" aria-label="Search" value="{{ request('query') }}">
-                <button class="btn btn-outline-dark ms-2" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>

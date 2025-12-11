@@ -30,6 +30,12 @@
     </div>
     <button type="submit" class="btn btn-primary w-100">Login</button>
 </form>
+
+<div class="text-center mt-3">
+    <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Website
+    </a>
+</div>
 </div>
 </div>
 </body>

@@ -3,32 +3,97 @@
 @section('title', 'Products - Auto Parts Hub')
 
 @section('content')
-    <div class="container py-5">
+    <div class="container-fluid py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+        <div class="container">
 
-        {{-- Display current category or All Products --}}
-        @if($category)
-            <h2 class="text-center fw-bold mb-5" style="color: #dc2d34;">Category: {{ $category }}</h2>
-        @else
-            <h2 class="text-center fw-bold mb-5" style="color: #dc2d34;">All Products</h2>
-        @endif
-
-        <div class="row justify-content-center g-4">
-            @forelse($products as $product)
-                <div class="col-md-3 text-center p-3 shadow-sm rounded-3 bg-white card shadow-lg mt-4">
-                    <img src="{{ asset('images/' . $product->image) }}"
-                         alt="{{ $product->name }}"
-                         class="img-fluid mb-3"
-                         style="max-height: 180px; object-fit: contain;">
-                    <h5 class="fw-bold">{{ $product->name }}</h5>
-                    <p class="text-muted">PKR {{ number_format($product->price) }}</p>
-                    <a href="{{ route('products.show', ['slug' => $product->slug]) }}"
-                       class="btn btn-sm text-white"
-                       style="background-color: #dc2d34;">View Details</a>
+            {{-- Display current category or All Products --}}
+            @if($category)
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold mb-2" style="color: #dc2d34;">Category: {{ $category }}</h2>
+                    <p class="text-muted">Browse our collection of {{ strtolower($category) }}</p>
                 </div>
-            @empty
-                <p class="text-center fw-semibold">No products found in this category.</p>
-            @endforelse
-        </div>
+            @else
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold mb-2" style="color: #dc2d34;">All Products</h2>
+                    <p class="text-muted">Discover our complete range of automotive parts</p>
+                </div>
+            @endif
 
+            {{-- Category Filter Buttons --}}
+            <div class="d-flex justify-content-center flex-wrap gap-2 mb-5">
+                <a href="{{ route('products.index') }}"
+                   class="btn {{ !$category ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    All Products
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Engine Parts']) }}"
+                   class="btn {{ $category == 'Engine Parts' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Engine Parts
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Brake System']) }}"
+                   class="btn {{ $category == 'Brake System' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Brake System
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Transmission']) }}"
+                   class="btn {{ $category == 'Transmission' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Transmission
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Tires & Wheels']) }}"
+                   class="btn {{ $category == 'Tires & Wheels' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Tires & Wheels
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Suspension Parts']) }}"
+                   class="btn {{ $category == 'Suspension Parts' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Suspension
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Lights']) }}"
+                   class="btn {{ $category == 'Lights' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Lights
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Body Components']) }}"
+                   class="btn {{ $category == 'Body Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Body Parts
+                </a>
+                <a href="{{ route('products.index', ['category' => 'Electrical Components']) }}"
+                   class="btn {{ $category == 'Electrical Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    Electrical
+                </a>
+            </div>
+
+            <div class="row g-4">
+                @forelse($products as $product)
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <div class="product-card soft-card">
+                            <div class="product-image-container">
+                                <img src="{{ asset('images/' . $product->image) }}"
+                                     alt="{{ $product->name }}"
+                                     class="product-image">
+                            </div>
+                            <div class="product-content">
+                                <div>
+                                    <h6 class="fw-bold mb-2">{{ $product->name }}</h6>
+                                    <p class="text-muted small mb-3">{{ Str::limit($product->description ?? 'High-quality automotive part', 60) }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold text-primary fs-6">PKR {{ number_format($product->price) }}</span>
+                                    <a href="{{ route('products.show', ['slug' => $product->slug]) }}"
+                                       class="btn btn-brand btn-sm">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="text-center py-5">
+                            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">No products found</h4>
+                            <p class="text-muted">Try selecting a different category or browse all products.</p>
+                            <a href="{{ route('products.index') }}" class="btn btn-brand">View All Products</a>
+                        </div>
+                    </div>
+                @endforelse
+            </div>
+
+
+        </div>
     </div>
 @endsection

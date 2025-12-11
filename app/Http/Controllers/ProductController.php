@@ -29,17 +29,17 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('query');
+        $category = $request->input('category');
 
         if ($query) {
             $products = Product::where('name', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%")
                 ->get();
+        } elseif ($category) {
+            $products = Product::where('category', $category)->get();
         } else {
             $products = Product::all();
         }
-
-        // Pass category as null (or actual category if you filter later)
-        $category = null;
 
         return view('pages.products', compact('products', 'category'));
     }
@@ -67,6 +67,31 @@ class ProductController extends Controller
             ->get();
 
         return view('search', compact('products', 'query'));
+    }
+
+    /**
+     * Ajax search used by navbar dropdown.
+     * Filters by name or category (and description) and returns JSON.
+     */
+    public function ajaxSearch(Request $request)
+    {
+        $query = $request->input('q');
+
+        if (!$query || strlen($query) < 2) {
+            return response()->json([]);
+        }
+
+        $results = Product::query()
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'LIKE', "%{$query}%")
+                  ->orWhere('category', 'LIKE', "%{$query}%")
+                  ->orWhere('description', 'LIKE', "%{$query}%");
+            })
+            ->orderBy('name')
+            ->limit(8)
+            ->get(['name', 'category', 'slug', 'image', 'price']);
+
+        return response()->json($results);
     }
 
 }

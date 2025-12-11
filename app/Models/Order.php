@@ -14,6 +14,10 @@ class Order extends Model
         'user_id',
         'total_amount',
         'status',
+        'name',
+        'email',
+        'phone',
+        'address',
     ];
 
     // Relationship with order items (optional)
