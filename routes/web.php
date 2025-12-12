@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminContactController;
+use App\Http\Controllers\ReviewController;
 //use Illuminate\Support\Facades\Auth;
 
 /*
@@ -55,6 +56,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Contacts (view + reply/status)
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'update']);
+
+    // Reviews management
+    Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('reviews.index');
+    Route::get('/reviews/{review}', [ReviewController::class, 'adminShow'])->name('reviews.show');
+    Route::post('/reviews/{review}/update-status', [ReviewController::class, 'adminUpdate'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'adminDestroy'])->name('reviews.destroy');
 });
 
 
@@ -78,6 +85,10 @@ Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/products/search-ajax', [ProductController::class, 'ajaxSearch'])->name('products.ajaxSearch'); // Must come before {slug} route
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+
+// Reviews routes
+Route::get('/products/{product}/reviews', [ReviewController::class, 'index'])->name('products.reviews');
+Route::post('/products/{product}/reviews', [ReviewController::class, 'store'])->name('products.reviews.store');
 
 // Cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
