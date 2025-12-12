@@ -30,7 +30,7 @@
                             <small class="text-muted">Average Rating</small>
                         </div>
                         <div class="col-md-4">
-                            <div class="h3 text-info">{{ \App\Models\Review::whereHas('images')->count() }}</div>
+                            <div class="h3 text-info">{{ \App\Models\Review::whereNotNull('images')->where('images', '!=', '[]')->count() }}</div>
                             <small class="text-muted">Reviews with Photos</small>
                         </div>
                     </div>
