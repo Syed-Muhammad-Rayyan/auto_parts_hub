@@ -39,7 +39,11 @@
                     <tr>
                         <th>Status:</th>
                         <td>
-                            <span class="badge bg-{{ $order->status === 'completed' ? 'success' : 'warning' }}">
+                            <span class="badge bg-{{
+                                $order->status === 'completed' ? 'success' :
+                                ($order->status === 'shipped' ? 'info' :
+                                ($order->status === 'cancelled' ? 'danger' : 'warning'))
+                            }}">
                                 {{ ucfirst($order->status) }}
                             </span>
                         </td>
@@ -61,7 +65,9 @@
                         <label>Change Status:</label>
                         <select name="status" class="form-control">
                             <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
                             <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Status</button>

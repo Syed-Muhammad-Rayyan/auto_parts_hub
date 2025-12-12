@@ -23,12 +23,20 @@
 
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item">
-                <a class="nav-link {{ $status === 'pending' ? 'active' : '' }}" 
+                <a class="nav-link {{ $status === 'pending' ? 'active' : '' }}"
                    href="{{ route('admin.orders.index', ['status' => 'pending']) }}">Pending Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ $status === 'completed' ? 'active' : '' }}" 
+                <a class="nav-link {{ $status === 'shipped' ? 'active' : '' }}"
+                   href="{{ route('admin.orders.index', ['status' => 'shipped']) }}">Shipped Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $status === 'completed' ? 'active' : '' }}"
                    href="{{ route('admin.orders.index', ['status' => 'completed']) }}">Completed Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $status === 'cancelled' ? 'active' : '' }}"
+                   href="{{ route('admin.orders.index', ['status' => 'cancelled']) }}">Cancelled Orders</a>
             </li>
         </ul>
 

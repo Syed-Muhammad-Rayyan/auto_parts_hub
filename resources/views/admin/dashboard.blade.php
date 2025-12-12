@@ -76,19 +76,37 @@
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="stats-card soft-card text-center p-3">
-                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #28a745;">{{ $stats['pending_orders'] }}</div>
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #ffc107;">{{ $stats['pending_orders'] }}</div>
                         <div class="stats-label text-muted">Pending Orders</div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="stats-card soft-card text-center p-3">
-                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #ffc107;">{{ $stats['new_messages'] }}</div>
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #17a2b8;">{{ $stats['shipped_orders'] }}</div>
+                        <div class="stats-label text-muted">Shipped Orders</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="stats-card soft-card text-center p-3">
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #28a745;">{{ $stats['completed_orders'] }}</div>
+                        <div class="stats-label text-muted">Completed Orders</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="stats-card soft-card text-center p-3">
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #dc3545;">{{ $stats['cancelled_orders'] }}</div>
+                        <div class="stats-label text-muted">Cancelled Orders</div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="stats-card soft-card text-center p-3">
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #6f42c1;">{{ $stats['new_messages'] }}</div>
                         <div class="stats-label text-muted">New Messages</div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                     <div class="stats-card soft-card text-center p-3">
-                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #17a2b8;">PKR {{ number_format($stats['total_revenue']) }}</div>
+                        <div class="stats-number fw-bold fs-2 mb-2" style="color: #20c997;">PKR {{ number_format($stats['total_revenue']) }}</div>
                         <div class="stats-label text-muted">Total Revenue</div>
                     </div>
                 </div>

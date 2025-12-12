@@ -21,6 +21,9 @@ class AdminDashboardController extends Controller
         $stats = [
             'total_products' => Product::count(),
             'pending_orders' => Order::where('status', 'pending')->count(),
+            'shipped_orders' => Order::where('status', 'shipped')->count(),
+            'completed_orders' => Order::where('status', 'completed')->count(),
+            'cancelled_orders' => Order::where('status', 'cancelled')->count(),
             'new_messages' => ContactMessage::where('status', 'pending')->count(),
             'total_revenue' => Order::where('status', 'completed')->sum('total_amount') ?? 0,
         ];
