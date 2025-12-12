@@ -15,4 +15,14 @@ class PageController extends Controller
         // Pass them to the view
         return view('pages.home', compact('featuredProducts'));
     }
+
+    public function about()
+    {
+        return view('pages.about');
+    }
+
+    public function terms()
+    {
+        return view('pages.terms');
+    }
 }

@@ -73,6 +73,10 @@ Route::get('/debug-admin', function () {
 // Home page route
 Route::get('/', [PageController::class, 'home'])->name('home');
 
+// About and Terms pages
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/terms', [PageController::class, 'terms'])->name('terms');
+
 // Products routes
 // Optional category query: /products?category=Engine+Parts
 Route::get('/search', [ProductController::class, 'search'])->name('search');

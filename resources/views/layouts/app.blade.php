@@ -365,6 +365,11 @@
                         <i class="fas fa-envelope me-1"></i>Contact
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">
+                        <i class="fas fa-info-circle me-1"></i>About Us
+                    </a>
+                </li>
             </ul>
 
             <ul class="navbar-nav">
