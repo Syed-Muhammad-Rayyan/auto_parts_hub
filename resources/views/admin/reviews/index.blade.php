@@ -14,23 +14,30 @@
         </a>
     </div>
 
-    <!-- Status Tabs -->
-    <ul class="nav nav-tabs mb-4">
-        <li class="nav-item">
-            <a class="nav-link {{ $status === 'all' ? 'active' : '' }}"
-               href="{{ route('admin.reviews.index', ['status' => 'all']) }}">
-                All Reviews
-                <span class="badge bg-primary ms-1">{{ \App\Models\Review::count() }}</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ $status === 'approved' ? 'active' : '' }}"
-               href="{{ route('admin.reviews.index', ['status' => 'approved']) }}">
-                Approved Reviews
-                <span class="badge bg-success ms-1">{{ \App\Models\Review::where('status', 'approved')->count() }}</span>
-            </a>
-        </li>
-    </ul>
+    <!-- Reviews Summary -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-light">
+                <div class="card-body text-center py-3">
+                    <h5 class="mb-2">Customer Reviews Overview</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="h3 text-primary">{{ \App\Models\Review::count() }}</div>
+                            <small class="text-muted">Total Reviews</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="h3 text-success">{{ \App\Models\Review::avg('rating') ? number_format(\App\Models\Review::avg('rating'), 1) : '0.0' }}</div>
+                            <small class="text-muted">Average Rating</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="h3 text-info">{{ \App\Models\Review::whereHas('images')->count() }}</div>
+                            <small class="text-muted">Reviews with Photos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @if($reviews->count() > 0)
         <div class="row">
@@ -43,14 +50,7 @@
                                 <small class="text-muted">{{ $review->customer_email }}</small>
                             </div>
                             <div class="text-end">
-                                <div class="mb-2">
-                                    @if($review->status === 'approved')
-                                        <span class="badge bg-success">Approved</span>
-                                    @else
-                                        <span class="badge bg-secondary">Unknown</span>
-                                    @endif
-                                </div>
-                                <div class="text-warning fs-5">
+                                <div class="text-warning fs-5 mb-2">
                                     {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
                                 </div>
                                 <small class="text-muted">{{ $review->created_at->format('M d, Y') }}</small>
@@ -99,14 +99,8 @@
     @else
         <div class="text-center py-5">
             <i class="fas fa-comments fa-3x text-muted mb-3"></i>
-            <h4 class="text-muted">No {{ $status === 'all' ? '' : $status }} reviews found</h4>
-            <p class="text-muted">
-                @if($status === 'all')
-                    There are currently no reviews in the system.
-                @else
-                    There are currently no {{ $status }} reviews.
-                @endif
-            </p>
+            <h4 class="text-muted">No reviews found</h4>
+            <p class="text-muted">There are currently no customer reviews in the system.</p>
         </div>
     @endif
 </div>

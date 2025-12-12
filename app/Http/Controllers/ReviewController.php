@@ -83,16 +83,11 @@ class ReviewController extends Controller
             return redirect()->route('admin.login');
         }
 
-        $status = $request->get('status', 'all');
-        $query = Review::with('product');
+        $reviews = Review::with('product')
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
 
-        if ($status !== 'all') {
-            $query->where('status', $status);
-        }
-
-        $reviews = $query->orderBy('created_at', 'desc')->paginate(15);
-
-        return view('admin.reviews.index', compact('reviews', 'status'));
+        return view('admin.reviews.index', compact('reviews'));
     }
 
     /**

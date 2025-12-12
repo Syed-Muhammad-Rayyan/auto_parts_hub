@@ -29,14 +29,7 @@
                         <small class="text-muted">Submitted on {{ $review->created_at->format('F d, Y \a\t h:i A') }}</small>
                     </div>
                     <div class="text-end">
-                        <div class="mb-2">
-                            @if($review->status === 'approved')
-                                <span class="badge bg-success">Approved</span>
-                            @else
-                                <span class="badge bg-secondary">Unknown Status</span>
-                            @endif
-                        </div>
-                        <div class="text-warning fs-5">
+                        <div class="text-warning fs-5 mb-2">
                             {{ str_repeat('★', $review->rating) }}{{ str_repeat('☆', 5 - $review->rating) }}
                         </div>
                         <small class="text-muted">{{ $review->rating }}/5 stars</small>
