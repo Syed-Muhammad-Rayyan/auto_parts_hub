@@ -20,21 +20,15 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-    // Get approved reviews
-    public function approvedReviews()
-    {
-        return $this->hasMany(Review::class)->where('status', 'approved');
-    }
-
     // Calculate average rating
     public function averageRating()
     {
-        return $this->approvedReviews()->avg('rating') ?? 0;
+        return $this->reviews()->avg('rating') ?? 0;
     }
 
     // Get total review count
     public function reviewCount()
     {
-        return $this->approvedReviews()->count();
+        return $this->reviews()->count();
     }
 }

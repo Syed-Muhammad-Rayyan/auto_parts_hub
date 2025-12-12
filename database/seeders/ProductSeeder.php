@@ -9,7 +9,7 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('products')->insert([
+        $products = [
             // EXISTING PRODUCTS
             [
                 'slug' => 'oil-filter',
@@ -464,6 +464,13 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
-        ]);
+        ];
+
+        foreach ($products as $product) {
+            DB::table('products')->updateOrInsert(
+                ['slug' => $product['slug']], // Unique identifier
+                $product
+            );
+        }
     }
 }

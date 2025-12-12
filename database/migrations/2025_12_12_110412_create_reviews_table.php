@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('comment');
             $table->json('images')->nullable(); // Store array of image paths
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['approved'])->default('approved');
             $table->timestamps();
 
             // Indexes for better performance

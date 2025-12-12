@@ -59,7 +59,7 @@ class ReviewSeeder extends Seeder
                 'rating' => 4,
                 'title' => 'Great Value',
                 'comment' => 'Good quality tires at reasonable prices. Installation was easy and they perform well on highways.',
-                'status' => 'pending',
+                'status' => 'approved',
             ],
             [
                 'customer_name' => 'Ayesha Malik',
@@ -67,7 +67,7 @@ class ReviewSeeder extends Seeder
                 'rating' => 5,
                 'title' => 'Amazing Customer Service',
                 'comment' => 'Not only are the parts high quality, but the customer service is exceptional. They helped me identify the right parts for my car.',
-                'status' => 'pending',
+                'status' => 'approved',
             ],
         ];
 

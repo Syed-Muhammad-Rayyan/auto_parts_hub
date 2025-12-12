@@ -32,15 +32,4 @@ class Review extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // Scope for approved reviews
-    public function scopeApproved($query)
-    {
-        return $query->where('status', 'approved');
-    }
-
-    // Scope for pending reviews
-    public function scopePending($query)
-    {
-        return $query->where('status', 'pending');
-    }
 }

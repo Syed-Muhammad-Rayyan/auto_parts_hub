@@ -56,12 +56,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Contacts (view + reply/status)
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'update']);
-
-    // Reviews management
-    Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('reviews.index');
-    Route::get('/reviews/{review}', [ReviewController::class, 'adminShow'])->name('reviews.show');
-    Route::post('/reviews/{review}/update-status', [ReviewController::class, 'adminUpdate'])->name('reviews.update');
-    Route::delete('/reviews/{review}', [ReviewController::class, 'adminDestroy'])->name('reviews.destroy');
 });
 
 

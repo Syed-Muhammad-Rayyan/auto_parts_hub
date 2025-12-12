@@ -128,6 +128,16 @@ class AdminProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
+    // Show product details
+    public function show(Product $product)
+    {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('admin.login');
+        }
+
+        return view('admin.products.show', compact('product'));
+    }
+
     // Delete product
     public function destroy(Product $product)
     {

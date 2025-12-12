@@ -37,7 +37,7 @@ class ReviewController extends Controller
             }
         }
 
-        // Create the review
+        // Create the review (auto-approved)
         $review = Review::create([
             'product_id' => $product->id,
             'customer_name' => $request->customer_name,
@@ -46,22 +46,22 @@ class ReviewController extends Controller
             'title' => $request->title,
             'comment' => $request->comment,
             'images' => $images,
-            'status' => 'pending', // Reviews need admin approval
+            'status' => 'approved', // Auto-approve reviews
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Thank you for your review! It will be published after admin approval.',
+            'message' => 'Thank you for your review! Your review has been published successfully.',
             'review' => $review
         ]);
     }
 
     /**
-     * Get reviews for a product (approved only)
+     * Get reviews for a product
      */
     public function index(Product $product)
     {
-        $reviews = $product->approvedReviews()
+        $reviews = $product->reviews()
             ->with('product')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -74,83 +74,4 @@ class ReviewController extends Controller
         ]);
     }
 
-    /**
-     * Admin: Get all reviews with pagination
-     */
-    public function adminIndex(Request $request)
-    {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $status = $request->get('status', 'pending');
-        $reviews = Review::with('product')
-            ->where('status', $status)
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
-
-        return view('admin.reviews.index', compact('reviews', 'status'));
-    }
-
-    /**
-     * Admin: Show single review
-     */
-    public function adminShow(Review $review)
-    {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $review->load('product');
-        return view('admin.reviews.show', compact('review'));
-    }
-
-    /**
-     * Admin: Update review status
-     */
-    public function adminUpdate(Request $request, Review $review)
-    {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $request->validate([
-            'status' => 'required|in:pending,approved,rejected',
-        ]);
-
-        $review->status = $request->status;
-        $review->save();
-
-        $statusMessage = match($request->status) {
-            'approved' => 'Review has been approved and is now visible to customers.',
-            'rejected' => 'Review has been rejected and will not be displayed.',
-            'pending' => 'Review status has been set to pending.',
-        };
-
-        return redirect()->back()->with('success', $statusMessage);
-    }
-
-    /**
-     * Admin: Delete review
-     */
-    public function adminDestroy(Review $review)
-    {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        // Delete associated images
-        if ($review->images) {
-            foreach ($review->images as $image) {
-                $imagePath = public_path('images/' . $image);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath);
-                }
-            }
-        }
-
-        $review->delete();
-
-        return redirect()->route('admin.reviews.index')->with('success', 'Review deleted successfully.');
-    }
 }
