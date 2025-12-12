@@ -26,37 +26,37 @@
                 </div>
             </div>
 
-            @if(session('success'))
+        @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show soft-card" role="alert">
                     <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+        @endif
 
             <div class="soft-card">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead class="table-light">
-                        <tr>
+            <tr>
                             <th class="border-0 fw-bold">Image</th>
                             <th class="border-0 fw-bold">Product Details</th>
                             <th class="border-0 fw-bold">Category</th>
                             <th class="border-0 fw-bold">Price</th>
                             <th class="border-0 fw-bold text-center">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($products as $product)
-                            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($products as $product)
+                <tr>
                                 <td class="align-middle">
-                                    @if($product->image)
+                        @if($product->image)
                                         <img src="{{ asset('images/'.$product->image) }}" class="rounded" width="60" height="60" style="object-fit: cover;">
                                     @else
                                         <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                             <i class="fas fa-image text-muted"></i>
                                         </div>
-                                    @endif
-                                </td>
+                        @endif
+                    </td>
                                 <td class="align-middle">
                                     <div class="fw-semibold">{{ $product->name }}</div>
                                     <small class="text-muted">{{ Str::limit($product->description ?? 'No description', 50) }}</small>
@@ -74,17 +74,17 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
+                            @csrf
+                            @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger btn-sm"
                                                     onclick="return confirm('Are you sure you want to delete this product?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                        </form>
+                        </form>
                                     </div>
-                                </td>
-                            </tr>
-                        @empty
+                    </td>
+                </tr>
+            @empty
                             <tr>
                                 <td colspan="5" class="text-center py-5">
                                     <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
@@ -92,9 +92,9 @@
                                     <p class="text-muted mb-0">Start by adding your first product.</p>
                                 </td>
                             </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+            @endforelse
+            </tbody>
+        </table>
                 </div>
             </div>
 

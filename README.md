@@ -1,61 +1,307 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 Auto Parts Hub - E-commerce Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12.34.0-red.svg)
+![PHP](https://img.shields.io/badge/PHP-8.2.12-777BB4.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple.svg)
 
-## About Laravel
+A comprehensive e-commerce platform for automotive parts built with Laravel, featuring admin panel, AJAX search, and RESTful APIs.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Table of Contents
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+- [Database Migrations](#database-migrations)
+- [API Documentation](#api-documentation)
+- [Usage Guide](#usage-guide)
+- [Admin Panel](#admin-panel)
+- [Git Workflow](#git-workflow)
+- [Contributing](#contributing)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🎯 Project Overview
 
-## Learning Laravel
+Auto Parts Hub is a modern e-commerce platform designed for buying and selling automotive spare parts. The platform provides a seamless shopping experience for customers and a comprehensive management system for administrators.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Key Objectives:
+- ✅ Complete CRUD operations for products and categories
+- ✅ AJAX-powered search functionality
+- ✅ RESTful API endpoints
+- ✅ Admin dashboard with real-time statistics
+- ✅ Responsive design for all devices
+- ✅ Secure authentication system
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ✨ Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🛒 Customer Features
+- **Product Catalog**: Browse products by categories
+- **AJAX Search**: Real-time search with live dropdown results
+- **Shopping Cart**: Add, remove, and update cart items
+- **Secure Checkout**: Complete order processing
+- **Product Details**: Detailed product information pages
+- **Responsive Design**: Optimized for mobile and desktop
 
-## Laravel Sponsors
+### 👨‍💼 Admin Features
+- **Dashboard**: Real-time statistics and overview
+- **Product Management**: Full CRUD operations for products
+- **Category Management**: Organize products by categories
+- **Order Management**: Track and process customer orders
+- **Contact Messages**: Handle customer inquiries
+- **User Authentication**: Secure admin login system
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🔌 API Features
+- **RESTful APIs**: JSON responses for all data
+- **Product APIs**: Retrieve, search, and filter products
+- **Category APIs**: Manage categories and their products
+- **Search APIs**: AJAX-powered search endpoints
 
-### Premium Partners
+## 🛠️ Technologies Used
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Backend
+- **Laravel 12.34.0**: PHP framework for robust web applications
+- **PHP 8.2.12**: Server-side scripting language
+- **MySQL**: Relational database management system
 
-## Contributing
+### Frontend
+- **Bootstrap 5.3**: Responsive CSS framework
+- **JavaScript (Vanilla)**: AJAX functionality and interactions
+- **Font Awesome**: Icons and visual elements
+- **Vite**: Modern build tool for assets
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Development Tools
+- **Composer**: PHP dependency management
+- **NPM**: Node.js package management
+- **Git**: Version control system
 
-## Code of Conduct
+## 🚀 Setup Instructions
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Prerequisites
+- **PHP 8.2+**
+- **Composer**
+- **Node.js & NPM**
+- **MySQL 8.0+**
+- **Git**
 
-## Security Vulnerabilities
+### Installation Steps
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Syed-Muhammad-Rayyan/auto_parts_hub.git
+   cd auto_parts_hub
+   ```
 
-## License
+2. **Install PHP dependencies:**
+   ```bash
+   composer install
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Install Node.js dependencies:**
+   ```bash
+   npm install
+   ```
+
+4. **Environment Configuration:**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+5. **Database Setup:**
+   ```bash
+   # Create database in MySQL
+   # Update .env file with database credentials
+
+   php artisan migrate
+   php artisan db:seed
+   ```
+
+6. **Build Assets:**
+   ```bash
+   npm run build
+   ```
+
+7. **Start the Application:**
+   ```bash
+   php artisan serve
+   ```
+
+8. **Access the Application:**
+   - Frontend: `http://localhost:8000`
+   - Admin Login: `http://localhost:8000/admin/login`
+     - Email: `admin@gmail.com`
+     - Password: `password123`
+
+## 🗄️ Database Migrations
+
+The application includes the following database migrations:
+
+```bash
+# Core Tables
+php artisan migrate
+
+# Available Migrations:
+# - Users table
+# - Cache and sessions
+# - Products table
+# - Cart items table
+# - Orders and order items
+# - Admin users table
+# - Categories table
+# - Contact messages table
+```
+
+### Database Relationships:
+- **Products ↔ Categories**: One-to-many relationship (string-based)
+- **Orders ↔ Order Items**: One-to-many relationship
+- **Users ↔ Orders**: One-to-many relationship
+- **Products ↔ Cart Items**: Many-to-many through cart
+
+## 📡 API Documentation
+
+### Base URL: `http://localhost:8000/api/`
+
+### Products API
+
+#### Get All Products
+```
+GET /api/products
+```
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "Premium Oil Filter",
+      "short": "High-quality filtration",
+      "price": 1200,
+      "category": "Engine Parts",
+      "image": "bosch-oil-filter.png",
+      "slug": "premium-oil-filter",
+      "created_at": "2025-01-01T00:00:00.000000Z"
+    }
+  ],
+  "count": 25
+}
+```
+
+#### Get Single Product
+```
+GET /api/products/{id}
+```
+
+#### Search Products
+```
+GET /api/products/search/{query}
+```
+
+### Categories API
+
+#### Get All Categories
+```
+GET /api/categories
+```
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "Engine Parts",
+      "description": "Engine components and parts",
+      "created_at": "2025-01-01T00:00:00.000000Z",
+      "product_count": 8
+    }
+  ],
+  "count": 8
+}
+```
+
+#### Get Category Products
+```
+GET /api/categories/{id}/products
+```
+
+## 📖 Usage Guide
+
+### For Customers
+
+1. **Browse Products**: Visit homepage to see featured products and categories
+2. **Search Products**: Use the search bar for instant results
+3. **Filter by Category**: Click category cards to filter products
+4. **View Details**: Click "View Details" to see full product information
+5. **Add to Cart**: Use the shopping cart functionality
+6. **Checkout**: Complete purchase through secure checkout
+
+### For Administrators
+
+1. **Login**: Use admin credentials at `/admin/login`
+2. **Dashboard**: View statistics and manage operations
+3. **Products**: Add, edit, delete products
+4. **Categories**: Manage product categories
+5. **Orders**: Track and manage customer orders
+6. **Messages**: Respond to customer inquiries
+
+## 👨‍💼 Admin Panel
+
+### Dashboard Features:
+- **Total Products**: Current product count
+- **Pending Orders**: Orders awaiting processing
+- **New Messages**: Unread contact messages
+- **Revenue**: Total earnings from completed orders
+
+### Management Modules:
+- **Products**: Complete CRUD operations
+- **Categories**: Category management
+- **Orders**: Order processing and tracking
+- **Contacts**: Customer communication
+
+## 🌳 Git Workflow
+
+### Branch Structure:
+- **`main`**: Production-ready code
+- **`development`**: Development branch for features
+
+### Workflow:
+```bash
+# Create feature branch
+git checkout -b feature/new-feature
+
+# Make changes and commit
+git add .
+git commit -m "Add new feature"
+
+# Merge to development
+git checkout development
+git merge feature/new-feature
+
+# Push to development
+git push origin development
+
+# Create pull request to main when ready
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Developer
+
+**Syed Muhammad Rayyan**
+- GitHub: [@Syed-Muhammad-Rayyan](https://github.com/Syed-Muhammad-Rayyan)
+- Project Repository: [Auto Parts Hub](https://github.com/Syed-Muhammad-Rayyan/auto_parts_hub)
+
+---
+
+**⭐ If you find this project helpful, please give it a star!**

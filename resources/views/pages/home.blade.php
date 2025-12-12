@@ -52,8 +52,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Brake System</h5>
                                     <p class="text-muted small mb-0">Pads, rotors, calipers & fluids</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
 
                     <!-- Transmission -->
@@ -67,8 +67,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Transmission</h5>
                                     <p class="text-muted small mb-0">Gears, clutches & drivetrain parts</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
 
                     <!-- Tires & Wheels -->
@@ -82,8 +82,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Tires & Wheels</h5>
                                     <p class="text-muted small mb-0">Premium tires & alloy wheels</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
 
                     <!-- Suspension Parts -->
@@ -96,8 +96,8 @@
                                 <div class="category-content">
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Suspension Parts</h5>
                                     <p class="text-muted small mb-0">Shocks, struts & control arms</p>
-                                </div>
-                            </div>
+            </div>
+        </div>
                         </a>
                     </div>
 
@@ -112,8 +112,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Lights</h5>
                                     <p class="text-muted small mb-0">Headlights, taillights & bulbs</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
 
                     <!-- Body Components -->
@@ -127,8 +127,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Body Components</h5>
                                     <p class="text-muted small mb-0">Seats, mirrors & exterior parts</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
 
                     <!-- Electrical Components -->
@@ -142,8 +142,8 @@
                                     <h5 class="fw-bold mb-3" style="color: #dc2d34;">Electrical Components</h5>
                                     <p class="text-muted small mb-0">Batteries, alternators & wiring</p>
                                 </div>
-                            </div>
-                        </a>
+                    </div>
+                </a>
                     </div>
                 </div>
             </div>
@@ -154,9 +154,9 @@
     <!-- FEATURED PRODUCTS SECTION -->
     <div class="container-fluid py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
         <div class="container">
-            <h2 class="text-center fw-bold mb-5" style="color: #dc2d34;">Featured Products</h2>
+        <h2 class="text-center fw-bold mb-5" style="color: #dc2d34;">Featured Products</h2>
 
-            <div class="row justify-content-center g-4">
+        <div class="row justify-content-center g-4">
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="product-card soft-card">
                         <div class="product-image-container">
@@ -173,7 +173,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+            </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="product-card soft-card">
@@ -191,7 +191,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+            </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="product-card soft-card">
@@ -209,7 +209,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+            </div>
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="product-card soft-card">

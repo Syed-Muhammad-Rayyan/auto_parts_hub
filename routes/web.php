@@ -94,5 +94,21 @@ Route::get('/checkout/thank-you', [CheckoutController::class, 'thankyou'])->name
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
+// API Routes
+use App\Http\Controllers\Api\ProductApiController;
+use App\Http\Controllers\Api\CategoryApiController;
+
+Route::prefix('api')->group(function () {
+    // Products API
+    Route::get('/products', [ProductApiController::class, 'index']);
+    Route::get('/products/{id}', [ProductApiController::class, 'show']);
+    Route::get('/products/search/{query}', [ProductApiController::class, 'search']);
+
+    // Categories API
+    Route::get('/categories', [CategoryApiController::class, 'index']);
+    Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
+    Route::get('/categories/{id}/products', [CategoryApiController::class, 'products']);
+});
+
 // Additional pages can be added here, e.g.:
 // Route::get('/about', [PageController::class, 'about'])->name('about');
