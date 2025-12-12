@@ -53,7 +53,7 @@ class AdminProductController extends Controller
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
             'category' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max size
         ]);
 
         $product = new Product();
@@ -100,7 +100,7 @@ class AdminProductController extends Controller
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
             'category' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max size
         ]);
 
         $product->name = $request->name;

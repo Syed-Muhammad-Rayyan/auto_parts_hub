@@ -110,6 +110,54 @@
             color: #dc2d34 !important;
         }
 
+        /* Image Upload Styles */
+        .image-upload-container {
+            position: relative;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .image-upload-area:hover {
+            border-color: #dc2d34;
+            background: #fef2f2;
+        }
+
+        .image-upload-area.dragover {
+            border-color: #dc2d34;
+            background: #fef2f2;
+            transform: scale(1.02);
+        }
+
+        .upload-placeholder i {
+            opacity: 0.7;
+        }
+
+        .image-preview {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+        }
+
+        .preview-header {
+            border-bottom: 1px solid #f8f9fa;
+            padding-bottom: 0.5rem;
+        }
+
+        .file-error {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
         nav.navbar {
             background-color: rgba(220, 45, 52, 0.73);
             border-bottom: 1px solid #eee;
