@@ -64,6 +64,20 @@
                         </div>
                     </a>
                 </div>
+
+                <!-- View Reviews -->
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <a href="{{ route('admin.reviews.index') }}" class="text-decoration-none">
+                        <div class="admin-card soft-card text-center p-4 h-100">
+                            <div class="admin-icon mb-3">
+                                <i class="fas fa-star fa-3x" style="color: #e83e8c;"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2">View Reviews</h5>
+                            <p class="text-muted small mb-3">Monitor customer reviews and ratings</p>
+                            <span class="btn btn-pink w-100" style="background-color: #e83e8c; color: white;">Go to Reviews</span>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <!-- Quick Stats Row -->

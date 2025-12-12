@@ -74,4 +74,38 @@ class ReviewController extends Controller
         ]);
     }
 
+    /**
+     * Admin: Get all reviews with pagination
+     */
+    public function adminIndex(Request $request)
+    {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('admin.login');
+        }
+
+        $status = $request->get('status', 'all');
+        $query = Review::with('product');
+
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $reviews = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        return view('admin.reviews.index', compact('reviews', 'status'));
+    }
+
+    /**
+     * Admin: Show single review
+     */
+    public function adminShow(Review $review)
+    {
+        if (!session()->has('admin_id')) {
+            return redirect()->route('admin.login');
+        }
+
+        $review->load('product');
+        return view('admin.reviews.show', compact('review'));
+    }
+
 }

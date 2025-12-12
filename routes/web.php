@@ -56,6 +56,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Contacts (view + reply/status)
     Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'update']);
+
+    // Reviews management (view only)
+    Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('reviews.index');
+    Route::get('/reviews/{review}', [ReviewController::class, 'adminShow'])->name('reviews.show');
 });
 
 
