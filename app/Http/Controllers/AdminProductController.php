@@ -4,28 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Support\Str; // keep this
 
 class AdminProductController extends Controller
 {
-    private $categories = [
-        'Engine Parts',
-        'Brake System',
-        'Transmission',
-        'Tires & Wheels',
-        'Suspension Parts',
-        'Lights',
-        'Body Components',
-        'Electrical Components'
-    ];
 
     // Display all products
     public function index()
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $products = Product::all();
         return view('admin.products.index', compact('products'));
     }
@@ -33,26 +20,18 @@ class AdminProductController extends Controller
     // Show form to create a new product
     public function create()
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $categories = $this->categories; // send categories to blade
+        $categories = Category::all(); // send categories to blade
         return view('admin.products.create', compact('categories'));
     }
 
     // Store new product
     public function store(Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $request->validate([
             'name' => 'required|string|max:255',
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
-            'category' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max size
         ]);
 
@@ -60,7 +39,7 @@ class AdminProductController extends Controller
         $product->name = $request->name;
         $product->short = $request->short ?? '';
         $product->price = $request->price;
-        $product->category = $request->category;
+        $product->category_id = $request->category_id;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -80,33 +59,25 @@ class AdminProductController extends Controller
     // Edit product
     public function edit(Product $product)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
-        $categories = $this->categories; // send categories to blade
+        $categories = Category::all(); // send categories to blade
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
     // Update product
     public function update(Request $request, Product $product)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $request->validate([
             'name' => 'required|string|max:255',
             'short' => 'nullable|string|max:255',
             'price' => 'required|numeric',
-            'category' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 2MB max size
         ]);
 
         $product->name = $request->name;
         $product->short = $request->short ?? '';
         $product->price = $request->price;
-        $product->category = $request->category;
+        $product->category_id = $request->category_id;
 
         if ($request->hasFile('image')) {
 
@@ -131,20 +102,12 @@ class AdminProductController extends Controller
     // Show product details
     public function show(Product $product)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         return view('admin.products.show', compact('product'));
     }
 
     // Delete product
     public function destroy(Product $product)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         if ($product->image && file_exists(public_path('images/' . $product->image))) {
             unlink(public_path('images/' . $product->image));
         }

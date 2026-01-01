@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\CartItem;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Passport configuration
+        Passport::loadKeysFrom(storage_path());
+
         // Share cart count with all views
         View::composer('*', function ($view) {
             $sessionId = session()->getId();

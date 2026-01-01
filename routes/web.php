@@ -37,42 +37,48 @@ Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 //    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 //});
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Auth
+    // Auth routes (no middleware needed)
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-    // Products CRUD
-    Route::resource('products', AdminProductController::class);
+    // Protected routes with middleware
+    Route::middleware([\App\Http\Middleware\AdminAuth::class])->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        // Products CRUD
+        Route::resource('products', AdminProductController::class);
 
-    // Categories CRUD
-    Route::resource('categories', AdminCategoryController::class);
+        // Categories CRUD
+        Route::resource('categories', AdminCategoryController::class);
 
-    // Orders (view + status update)
-    Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
+        // Orders (view + status update)
+        Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update']);
 
-    // Contacts (view + reply/status)
-    Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'update']);
+        // Contacts (view + reply/status)
+        Route::resource('contacts', AdminContactController::class)->only(['index', 'show', 'update']);
 
-    // Reviews management (view only)
-    Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('reviews.index');
-    Route::get('/reviews/{review}', [ReviewController::class, 'adminShow'])->name('reviews.show');
+        // Reviews management (view only)
+        Route::get('/reviews', [ReviewController::class, 'adminIndex'])->name('reviews.index');
+        Route::get('/reviews/{review}', [ReviewController::class, 'adminShow'])->name('reviews.show');
+
+        // Dashboard
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    });
 });
 
 
-// Debug route
-Route::get('/debug-admin', function () {
-    return [
-        'session_admin_id' => session('admin_id'),
-        'session_admin_name' => session('admin_name'),
-        'all_session' => session()->all(),
-        'admin_count' => \DB::table('admins')->count(),
-        'first_admin' => \DB::table('admins')->first()
-    ];
-});
+// Debug route (remove in production)
+//Route::get('/debug-admin', function () {
+//    return [
+//        'session_admin_id' => session('admin_id'),
+//        'session_admin_name' => session('admin_name'),
+//        'all_session' => session()->all(),
+//        'admin_count' => \DB::table('admins')->count(),
+//        'first_admin' => \DB::table('admins')->first(),
+//        'middleware_test' => session()->has('admin_id') ? 'Admin logged in' : 'Not logged in'
+//    ];
+//});
 
 // Home page route
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -107,21 +113,43 @@ Route::get('/checkout/thank-you', [CheckoutController::class, 'thankyou'])->name
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
+// Passport OAuth routes
+Route::post('/oauth/token', [\Laravel\Passport\Http\Controllers\AccessTokenController::class, 'issueToken']);
+Route::post('/oauth/token/refresh', [\Laravel\Passport\Http\Controllers\TransientTokenController::class, 'refresh']);
+Route::get('/oauth/clients', [\Laravel\Passport\Http\Controllers\ClientController::class, 'index']);
+Route::post('/oauth/clients', [\Laravel\Passport\Http\Controllers\ClientController::class, 'store']);
+Route::put('/oauth/clients/{client_id}', [\Laravel\Passport\Http\Controllers\ClientController::class, 'update']);
+Route::delete('/oauth/clients/{client_id}', [\Laravel\Passport\Http\Controllers\ClientController::class, 'destroy']);
+Route::get('/oauth/scopes', [\Laravel\Passport\Http\Controllers\ScopeController::class, 'index']);
+Route::get('/oauth/personal-access-tokens', [\Laravel\Passport\Http\Controllers\PersonalAccessTokenController::class, 'index']);
+Route::post('/oauth/personal-access-tokens', [\Laravel\Passport\Http\Controllers\PersonalAccessTokenController::class, 'store']);
+Route::delete('/oauth/personal-access-tokens/{token_id}', [\Laravel\Passport\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
+
 // API Routes
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\CategoryApiController;
 
-Route::prefix('api')->group(function () {
+
+Route::prefix('api')->middleware('auth:api')->group(function () {
+
     // Products API
     Route::get('/products', [ProductApiController::class, 'index']);
     Route::get('/products/{id}', [ProductApiController::class, 'show']);
+    Route::post('/products', [ProductApiController::class, 'store']);
+    Route::put('/products/{id}', [ProductApiController::class, 'update']);
+    Route::delete('/products/{id}', [ProductApiController::class, 'destroy']);
     Route::get('/products/search/{query}', [ProductApiController::class, 'search']);
 
     // Categories API
     Route::get('/categories', [CategoryApiController::class, 'index']);
     Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
+    Route::post('/categories', [CategoryApiController::class, 'store']);
+    Route::put('/categories/{id}', [CategoryApiController::class, 'update']);
+    Route::delete('/categories/{id}', [CategoryApiController::class, 'destroy']);
     Route::get('/categories/{id}/products', [CategoryApiController::class, 'products']);
 });
+
+// Passport handles authentication via OAuth routes above
 
 // Additional pages can be added here, e.g.:
 // Route::get('/about', [PageController::class, 'about'])->name('about');

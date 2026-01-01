@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -11,8 +12,14 @@ class Product extends Model
 
     // Allow mass assignment
     protected $fillable = [
-        'slug', 'name', 'price', 'short', 'image', 'description', 'category'
+        'slug', 'name', 'price', 'short', 'image', 'description', 'category', 'category_id'
     ];
+
+    // Relationship with Category
+    public function categoryRelation()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 
     // Relationship with Reviews
     public function reviews()

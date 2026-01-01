@@ -25,28 +25,12 @@
                    class="btn {{ !$category ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
                     All Products
                 </a>
-                <a href="{{ route('products.index', ['category' => 'Engine Parts']) }}"
-                   class="btn {{ $category == 'Engine Parts' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Engine Parts
+                @foreach($categories as $cat)
+                <a href="{{ route('products.index', ['category' => $cat->name]) }}"
+                   class="btn {{ $category == $cat->name ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                    {{ $cat->name }}
                 </a>
-                <a href="{{ route('products.index', ['category' => 'Brake System']) }}"
-                   class="btn {{ $category == 'Brake System' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Brake System
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Transmission']) }}"
-                   class="btn {{ $category == 'Transmission' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Transmission
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Tires & Wheels']) }}"
-                   class="btn {{ $category == 'Tires & Wheels' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Tires & Wheels
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Suspension Parts']) }}"
-                   class="btn {{ $category == 'Suspension Parts' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Suspension
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Lights']) }}"
-                   class="btn {{ $category == 'Lights' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
+                @endforeach
                     Lights
                 </a>
                 <a href="{{ route('products.index', ['category' => 'Body Components']) }}"
@@ -71,6 +55,7 @@
                             <div class="product-content">
                                 <div>
                                     <h6 class="fw-bold mb-2">{{ $product->name }}</h6>
+                                    <span class="badge bg-primary mb-2">{{ $product->categoryRelation->name ?? 'Uncategorized' }}</span>
                                     <p class="text-muted small mb-3">{{ Str::limit($product->description ?? 'High-quality automotive part', 60) }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">

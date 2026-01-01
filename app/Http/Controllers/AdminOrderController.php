@@ -9,10 +9,6 @@ class AdminOrderController extends Controller
 {
     public function index(Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $status = $request->get('status', 'pending');
         $orders = Order::with('items.product')
             ->where('status', $status)
@@ -24,10 +20,6 @@ class AdminOrderController extends Controller
 
     public function show(Order $order, Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $order->load('items.product');
         $currentStatus = $request->get('status', 'pending');
         return view('admin.orders.show', compact('order', 'currentStatus'));
@@ -35,10 +27,6 @@ class AdminOrderController extends Controller
 
     public function update(Request $request, Order $order)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $request->validate([
             'status' => 'required|in:pending,completed,cancelled,shipped',
         ]);

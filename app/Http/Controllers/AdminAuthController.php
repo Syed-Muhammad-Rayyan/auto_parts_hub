@@ -11,6 +11,11 @@ class AdminAuthController extends Controller
     // Show login form
     public function showLoginForm()
     {
+        // If already logged in as admin, redirect to dashboard
+        if (session()->has('admin_id')) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('admin.login');
     }
 

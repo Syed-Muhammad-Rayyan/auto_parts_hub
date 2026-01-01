@@ -35,7 +35,7 @@
                     <div class="col-md-8">
                         <h3 class="mb-3">{{ $product->name }}</h3>
                         <div class="mb-3">
-                            <span class="badge bg-primary fs-6">{{ $product->category }}</span>
+                            <span class="badge bg-primary fs-6">{{ $product->categoryRelation->name ?? 'No Category' }}</span>
                         </div>
                         <h4 class="text-success mb-3">PKR {{ number_format($product->price) }}</h4>
                         <p class="text-muted mb-2"><strong>Short Description:</strong></p>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr>
                         <td><strong>Category:</strong></td>
-                        <td>{{ $product->category }}</td>
+                        <td>{{ $product->categoryRelation->name ?? 'No Category' }}</td>
                     </tr>
                     <tr>
                         <td><strong>Price:</strong></td>

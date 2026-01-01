@@ -9,10 +9,6 @@ class AdminContactController extends Controller
 {
     public function index(Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $status = $request->get('status', 'pending');
         $messages = ContactMessage::where('status', $status)
             ->orderBy('created_at', 'desc')
@@ -23,20 +19,12 @@ class AdminContactController extends Controller
 
     public function show(ContactMessage $contact, Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $currentStatus = $request->get('status', 'pending');
         return view('admin.contacts.show', compact('contact', 'currentStatus'));
     }
 
     public function update(Request $request, ContactMessage $contact)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $request->validate([
             'status' => 'required|in:pending,replied',
             'reply_message' => 'nullable|string',

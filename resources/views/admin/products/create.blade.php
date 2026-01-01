@@ -40,9 +40,9 @@
             </div>
             <div class="mb-3">
                 <label>Category</label>
-                <select name="category" class="form-control" required>
-                    @foreach ($categories as $cat)
-                        <option value="{{ $cat }}">{{ $cat }}</option>
+                <select name="category_id" class="form-control" required>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>

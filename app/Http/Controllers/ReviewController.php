@@ -79,10 +79,6 @@ class ReviewController extends Controller
      */
     public function adminIndex(Request $request)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $reviews = Review::with('product')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -95,10 +91,6 @@ class ReviewController extends Controller
      */
     public function adminShow(Review $review)
     {
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         $review->load('product');
         return view('admin.reviews.show', compact('review'));
     }

@@ -62,22 +62,29 @@
                                     <small class="text-muted">{{ Str::limit($product->description ?? 'No description', 50) }}</small>
                                 </td>
                                 <td class="align-middle">
-                                    <span class="badge bg-primary">{{ $product->category }}</span>
+                                    <span class="badge bg-primary">{{ $product->categoryRelation->name ?? 'No Category' }}</span>
                                 </td>
                                 <td class="align-middle fw-bold text-primary">
                                     PKR {{ number_format($product->price) }}
                                 </td>
                                 <td class="align-middle text-center">
                                     <div class="btn-group" role="group">
+                                        <a href="{{ route('admin.products.show', $product->id) }}"
+                                           class="btn btn-outline-info btn-sm"
+                                           title="View Product">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <a href="{{ route('admin.products.edit', $product->id) }}"
-                                           class="btn btn-outline-primary btn-sm">
+                                           class="btn btn-outline-primary btn-sm"
+                                           title="Edit Product">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                                             <button type="submit" class="btn btn-outline-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this product?')">
+                                                    onclick="return confirm('Are you sure you want to delete this product?')"
+                                                    title="Delete Product">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                         </form>
@@ -97,6 +104,7 @@
         </table>
                 </div>
             </div>
+
 
 
         </div>

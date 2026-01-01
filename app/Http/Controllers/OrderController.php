@@ -9,24 +9,14 @@ use App\Models\Product;
 
 class OrderController extends Controller
 {
-    // Ensure only logged-in users can access orders
-//    public function __construct()
-//    {
-//        $this->middleware('auth');
-//    }
 
-    /**
-     * Display a listing of the user's orders
-     */
     public function index()
     {
         $orders = Order::where('user_id', auth()->id())->with('items.product')->latest()->get();
         return view('orders.index', compact('orders'));
     }
 
-    /**
-     * Show a single order
-     */
+
     public function show(Order $order)
     {
         // Make sure user can only see their own orders
@@ -39,9 +29,7 @@ class OrderController extends Controller
         return view('orders.show', compact('order'));
     }
 
-    /**
-     * Store a new order (checkout)
-     */
+
     public function store(Request $request)
     {
         $cart = session('cart', []);

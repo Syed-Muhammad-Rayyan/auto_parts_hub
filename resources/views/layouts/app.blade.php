@@ -140,11 +140,10 @@
         .product-card {
             transition: all 0.3s ease;
             border: none;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            min-height: 380px;
-            height: 380px;
+            min-height: 400px;
+            height: auto;
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -411,10 +410,15 @@
                     </div>
                 </li>
 
-                {{-- Admin Login --}}
+                {{-- Admin Login/Panel --}}
                 <li class="nav-item ms-3">
                     <a href="{{ route('admin.login') }}" class="btn btn-brand btn-sm">
-                        <i class="fas fa-user-shield me-1"></i>Admin
+                        <i class="fas fa-user-shield me-1"></i>
+                        @if(session()->has('admin_id'))
+                            Admin Panel
+                        @else
+                            Admin Login
+                        @endif
                     </a>
                                 </li>
             </ul>

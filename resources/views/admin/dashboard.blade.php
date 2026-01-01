@@ -17,7 +17,7 @@
                                 <i class="fas fa-box fa-3x" style="color: #007bff;"></i>
                             </div>
                             <h5 class="fw-bold mb-2">Manage Products</h5>
-                            <p class="text-muted small mb-3">Add, edit, and manage your product inventory</p>
+                            <p class="text-muted small mb-3">Manage your product inventory</p>
                             <span class="btn btn-primary w-100">Go to Products</span>
                         </div>
                     </a>

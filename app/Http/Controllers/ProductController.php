@@ -4,27 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
 
-    ////////// Product Method ///////////
-//    public function index(Request $request)
-//    {
-//        // Get the category from the query string (if any)
-//        $category = $request->query('category');
-//
-//        if ($category) {
-//            // Only products from this category
-//            $products = Product::where('category', $category)->get();
-//        } else {
-//            // Show all products
-//            $products = Product::all();
-//        }
-//
-//        // Pass products and current category to the view
-//        return view('pages.products', compact('products', 'category'));
-//    }
 
     public function index(Request $request)
     {
@@ -32,16 +16,22 @@ class ProductController extends Controller
         $category = $request->input('category');
 
         if ($query) {
-            $products = Product::where('name', 'LIKE', "%{$query}%")
+            $products = Product::with('categoryRelation')
+                ->where('name', 'LIKE', "%{$query}%")
                 ->orWhere('description', 'LIKE', "%{$query}%")
                 ->get();
         } elseif ($category) {
-            $products = Product::where('category', $category)->get();
+            $products = Product::with('categoryRelation')
+                ->whereHas('categoryRelation', function($q) use ($category) {
+                    $q->where('name', $category);
+                })
+                ->get();
         } else {
-            $products = Product::all();
+            $products = Product::with('categoryRelation')->get();
         }
 
-        return view('pages.products', compact('products', 'category'));
+        $categories = Category::all();
+        return view('pages.products', compact('products', 'category', 'categories'));
     }
 
 
@@ -81,15 +71,17 @@ class ProductController extends Controller
             return response()->json([]);
         }
 
-        $results = Product::query()
+        $results = Product::with('category')
             ->where(function ($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
-                  ->orWhere('category', 'LIKE', "%{$query}%")
+                  ->orWhereHas('category', function($catQuery) use ($query) {
+                      $catQuery->where('name', 'LIKE', "%{$query}%");
+                  })
                   ->orWhere('description', 'LIKE', "%{$query}%");
             })
             ->orderBy('name')
             ->limit(8)
-            ->get(['name', 'category', 'slug', 'image', 'price']);
+            ->get(['name', 'slug', 'image', 'price']);
 
         return response()->json($results);
     }

@@ -15,15 +15,10 @@ class CategoryApiController extends Controller
      */
     public function index(): JsonResponse
     {
-        $categories = Category::select('id', 'name', 'description', 'created_at')
+        $categories = Category::withCount('products')
+            ->select('id', 'name', 'description', 'created_at')
             ->orderBy('name')
             ->get();
-
-        // Add product count for each category
-        $categories->transform(function ($category) {
-            $category->product_count = Product::where('category', $category->name)->count();
-            return $category;
-        });
 
         return response()->json([
             'success' => true,
@@ -37,7 +32,8 @@ class CategoryApiController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $category = Category::select('id', 'name', 'description', 'created_at')
+        $category = Category::withCount('products')
+            ->select('id', 'name', 'description', 'created_at')
             ->find($id);
 
         if (!$category) {
@@ -46,9 +42,6 @@ class CategoryApiController extends Controller
                 'message' => 'Category not found'
             ], 404);
         }
-
-        // Add product count
-        $category->product_count = Product::where('category', $category->name)->count();
 
         return response()->json([
             'success' => true,
@@ -61,6 +54,46 @@ class CategoryApiController extends Controller
      */
     public function products($id): JsonResponse
     {
+        $category = Category::with('products')->find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'category' => $category,
+                'products' => $category->products,
+                'product_count' => $category->products->count()
+            ]
+        ]);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+            'description' => 'nullable|string'
+        ]);
+
+        $category = Category::create([
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Category created successfully',
+            'data' => $category
+        ], 201);
+    }
+
+    public function update(Request $request, $id): JsonResponse
+    {
         $category = Category::find($id);
 
         if (!$category) {
@@ -70,18 +103,44 @@ class CategoryApiController extends Controller
             ], 404);
         }
 
-        $products = Product::where('category', $category->name)
-            ->select('id', 'name', 'short', 'price', 'image', 'slug', 'created_at')
-            ->orderBy('name')
-            ->get();
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string'
+        ]);
+
+        $category->update($request->only(['name', 'description']));
 
         return response()->json([
             'success' => true,
-            'data' => [
-                'category' => $category,
-                'products' => $products,
-                'product_count' => $products->count()
-            ]
+            'message' => 'Category updated successfully',
+            'data' => $category
+        ]);
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+            ], 404);
+        }
+
+        // Check if category has products
+        if ($category->products()->count() > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete category with existing products'
+            ], 400);
+        }
+
+        $category->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Category deleted successfully'
         ]);
     }
 }

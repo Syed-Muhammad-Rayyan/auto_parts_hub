@@ -12,11 +12,6 @@ class AdminDashboardController extends Controller
 {
     public function index()
     {
-        // Ensure admin is logged in
-        if (!session()->has('admin_id')) {
-            return redirect()->route('admin.login');
-        }
-
         // Get statistics
         $stats = [
             'total_products' => Product::count(),
