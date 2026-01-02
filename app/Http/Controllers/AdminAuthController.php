@@ -32,7 +32,7 @@ class AdminAuthController extends Controller
         if ($admin && Hash::check($request->password, $admin->password)) {
             // Store admin in session
             session(['admin_id' => $admin->id, 'admin_name' => $admin->name]);
-            return redirect()->route('admin.dashboard'); // We'll create dashboard later
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();

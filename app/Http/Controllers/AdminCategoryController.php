@@ -28,8 +28,7 @@ class AdminCategoryController extends Controller
 
         Category::create($request->only(['name', 'description']));
 
-        return redirect()->route('admin.categories.index')
-            ->with('success', 'Category created successfully.');
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully.');
     }
 
     public function show(Category $category)

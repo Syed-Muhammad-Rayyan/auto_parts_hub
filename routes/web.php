@@ -126,28 +126,10 @@ Route::post('/oauth/personal-access-tokens', [\Laravel\Passport\Http\Controllers
 Route::delete('/oauth/personal-access-tokens/{token_id}', [\Laravel\Passport\Http\Controllers\PersonalAccessTokenController::class, 'destroy']);
 
 // API Routes
-use App\Http\Controllers\Api\ProductApiController;
-use App\Http\Controllers\Api\CategoryApiController;
 
 
-Route::prefix('api')->middleware('auth:api')->group(function () {
 
-    // Products API
-    Route::get('/products', [ProductApiController::class, 'index']);
-    Route::get('/products/{id}', [ProductApiController::class, 'show']);
-    Route::post('/products', [ProductApiController::class, 'store']);
-    Route::put('/products/{id}', [ProductApiController::class, 'update']);
-    Route::delete('/products/{id}', [ProductApiController::class, 'destroy']);
-    Route::get('/products/search/{query}', [ProductApiController::class, 'search']);
 
-    // Categories API
-    Route::get('/categories', [CategoryApiController::class, 'index']);
-    Route::get('/categories/{id}', [CategoryApiController::class, 'show']);
-    Route::post('/categories', [CategoryApiController::class, 'store']);
-    Route::put('/categories/{id}', [CategoryApiController::class, 'update']);
-    Route::delete('/categories/{id}', [CategoryApiController::class, 'destroy']);
-    Route::get('/categories/{id}/products', [CategoryApiController::class, 'products']);
-});
 
 // Passport handles authentication via OAuth routes above
 
