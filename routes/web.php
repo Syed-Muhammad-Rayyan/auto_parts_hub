@@ -14,7 +14,6 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\ReviewController;
-//use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,19 +22,12 @@ use App\Http\Controllers\ReviewController;
 */
 
 //
-//Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-//Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 
 //// Routes that require authentication
-//Route::middleware('auth')->group(function () {
-//    Route::post('/checkout', [OrderController::class, 'store'])->name('orders.store');
-//    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-//    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-//});
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Auth routes (no middleware needed)
@@ -67,18 +59,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 });
 
-
-// Debug route (remove in production)
-//Route::get('/debug-admin', function () {
-//    return [
-//        'session_admin_id' => session('admin_id'),
-//        'session_admin_name' => session('admin_name'),
-//        'all_session' => session()->all(),
-//        'admin_count' => \DB::table('admins')->count(),
-//        'first_admin' => \DB::table('admins')->first(),
-//        'middleware_test' => session()->has('admin_id') ? 'Admin logged in' : 'Not logged in'
-//    ];
-//});
 
 // Home page route
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -134,4 +114,3 @@ Route::delete('/oauth/personal-access-tokens/{token_id}', [\Laravel\Passport\Htt
 // Passport handles authentication via OAuth routes above
 
 // Additional pages can be added here, e.g.:
-// Route::get('/about', [PageController::class, 'about'])->name('about');

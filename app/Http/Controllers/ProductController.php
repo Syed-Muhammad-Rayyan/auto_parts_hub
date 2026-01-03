@@ -71,17 +71,25 @@ class ProductController extends Controller
             return response()->json([]);
         }
 
-        $results = Product::with('category')
+        $results = Product::with('categoryRelation')
             ->where(function ($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
-                  ->orWhereHas('category', function($catQuery) use ($query) {
+                  ->orWhereHas('categoryRelation', function($catQuery) use ($query) {
                       $catQuery->where('name', 'LIKE', "%{$query}%");
                   })
                   ->orWhere('description', 'LIKE', "%{$query}%");
             })
             ->orderBy('name')
             ->limit(8)
-            ->get(['name', 'slug', 'image', 'price']);
+            ->get(['name', 'slug', 'image', 'price', 'category_id']);
+
+        // Add category name to each result for JavaScript access
+        $results = $results->map(function ($product) {
+            $product->category = $product->categoryRelation ? $product->categoryRelation->name : 'Uncategorized';
+            unset($product->categoryRelation); // Remove the relationship data
+            unset($product->category_id); // Remove category_id
+            return $product;
+        });
 
         return response()->json($results);
     }

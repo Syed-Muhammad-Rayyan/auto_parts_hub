@@ -33,7 +33,7 @@ class AdminCategoryController extends Controller
 
     public function show(Category $category)
     {
-        $products = Product::where('category', $category->name)->get();
+        $products = $category->products; // Use relationship instead of string lookup
         return view('admin.categories.show', compact('category', 'products'));
     }
 

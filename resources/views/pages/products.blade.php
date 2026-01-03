@@ -31,16 +31,16 @@
                     {{ $cat->name }}
                 </a>
                 @endforeach
-                    Lights
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Body Components']) }}"
-                   class="btn {{ $category == 'Body Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Body Parts
-                </a>
-                <a href="{{ route('products.index', ['category' => 'Electrical Components']) }}"
-                   class="btn {{ $category == 'Electrical Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">
-                    Electrical
-                </a>
+
+{{--                </a>--}}
+{{--                <a href="{{ route('products.index', ['category' => 'Body Components']) }}"--}}
+{{--                   class="btn {{ $category == 'Body Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">--}}
+{{--                    Body Parts--}}
+{{--                </a>--}}
+{{--                <a href="{{ route('products.index', ['category' => 'Electrical Components']) }}"--}}
+{{--                   class="btn {{ $category == 'Electrical Components' ? 'btn-brand' : 'btn-outline-primary' }} btn-sm">--}}
+{{--                    Electrical--}}
+{{--                </a>--}}
             </div>
 
             <div class="row g-4">

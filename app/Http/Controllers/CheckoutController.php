@@ -13,8 +13,6 @@ class CheckoutController extends Controller
     {
         $cartItems = session()->get('cart', []);
 
-        // Debug: check what checkout sees
-      //  dd($cartItems);
 
         return view('pages.checkout', compact('cartItems'));
     }

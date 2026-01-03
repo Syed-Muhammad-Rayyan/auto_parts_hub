@@ -40,8 +40,6 @@ class CartController extends Controller
         // Store cart in session
         session()->put('cart', $cart);
 
-        // Debug: check if session has cart
-      //  dd(session()->all());
 
         // Return back (comment this out while debugging)
         return redirect()->back()->with('success', 'Product added to cart!');
